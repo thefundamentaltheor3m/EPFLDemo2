@@ -5,3 +5,92 @@
 % If you want to split the blueprint content into several files then
 % the current file can be a simple sequence of \input. Otherwise It
 % can start with a \section or \chapter for instance.
+
+\chapter{Euclid's Proof of the Infinitude of Primes}
+
+In this Chapter, we see a basic example that demonstrates how the blueprint and the dependency graph work: Euclid's proof of the infinitude of primes.
+
+\section{Structure of the Argument}
+
+Given any natural number $n$, we show there exists a prime $p$ with $n < p$.
+The argument proceeds as follows:
+
+\begin{enumerate}
+  \item Form $N = n! + 1$. Since $n! ≥ 1$, we have $N ≥ 2$.
+  \item Because $N ≥ 2$, it possesses at least one prime factor $p$.
+  \item Since $p \mid n! + 1$ and, if $p ≤ n$ were to hold, we would also have $p \mid n!$, we would get $p ∣ 1$, contradicting the fact that every prime is at least $2$.
+  \item Therefore $p > n$, witnessing a prime larger than $n$.
+\end{enumerate}
+
+Since $n$ was arbitrary, there is no largest prime.
+
+\section{The Argument}
+
+We will turn each of the above steps into a concrete lemma, and we will add in the dependencies once we've understood how the argument goes.
+
+\begin{lemma}[Factorial-plus-one is at least two]
+For every natural number $n$, one has
+\[
+2 \le n! + 1.
+\]
+\end{lemma}
+
+\begin{proof}
+For every $n$, we know $n! \ge 1$ (equivalently, $n!>0$). Adding $1$ gives
+\[
+n!+1 \ge 2.
+\]
+\end{proof}
+
+\begin{lemma}[A prime dividing $n!+1$ does not divide $n!$]
+Let $n,p\in\mathbb{N}$, and assume $p$ is prime and $p\mid (n!+1)$. Then
+\[
+p\nmid n!.
+\]
+\end{lemma}
+
+\begin{proof}
+Assume for contradiction that $p\mid n!$. Then $p$ divides both $n!$ and $n!+1$, so $p$ divides their greatest common divisor:
+\[
+p \mid \gcd(n!,\,n!+1).
+\]
+But consecutive integers are coprime, hence $\gcd(n!,n!+1)=1$, so $p\mid 1$. This is impossible for a prime number, since every prime is at least $2$. Therefore $p\nmid n!$.
+\end{proof}
+
+\begin{lemma}[Prime factors of $n!+1$ are larger than $n$]
+Let $n,p\in\mathbb{N}$. If $p$ is prime and $p\mid (n!+1)$, then
+\[
+n<p.
+\]
+\end{lemma}
+
+\begin{proof}
+Suppose, toward contradiction, that $p\le n$. Since $p$ is prime and $p\le n$, the standard factorial divisibility fact gives $p\mid n!$. But from the previous lemma, any prime divisor of $n!+1$ cannot divide $n!$. Contradiction. Hence $p>n$.
+\end{proof}
+
+\begin{theorem}[Euclid: for every bound, there is a larger prime]
+For every natural number $n$, there exists a prime number $p$ such that
+\[
+n<p.
+\]
+\end{theorem}
+
+\begin{proof}
+Fix $n$, and consider $N=n!+1$. By the first lemma, $N\ge 2$, so in particular $N\ne 1$. Therefore $N$ has a prime divisor: there exists a prime $p$ with $p\mid N$.
+
+Applying the previous lemma to this $p$, we get $n<p$. So there exists a prime strictly larger than $n$.
+\end{proof}
+
+\begin{theorem}[Infinitude of primes]
+The set
+\[
+\{\,p\in\mathbb{N}\mid p\ \text{is prime}\,\}
+\]
+is infinite.
+\end{theorem}
+
+\begin{proof}
+It is enough to show this set is not bounded above in $\mathbb{N}$. Let $n$ be any natural number. By Euclid's theorem above, there exists a prime $p$ with $n<p$. So no $n$ can be an upper bound for all primes.
+
+Hence the set of primes is unbounded above, and therefore infinite.
+\end{proof}
