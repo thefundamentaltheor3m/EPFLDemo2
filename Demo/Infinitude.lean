@@ -13,18 +13,12 @@ lemma step_2 (p n : ℕ) (hn : 0 < n) (h1 : p.Prime) (h2 : p ∣ n.factorial + 1
   by_contra h
   have h3 : p ∣ n.factorial := by
     obtain ⟨m, hm⟩ := Nat.exists_eq_add_one.mpr hn
-    rw [hm]
-    simp only [Nat.factorial, Nat.succ_eq_add_one]
-    rw [← hm]
-    rw [dvd_mul]
+    rw [hm, Nat.factorial, Nat.succ_eq_add_one, ← hm, dvd_mul]
     use p, 1
     simp only [isUnit_iff_eq_one, IsUnit.dvd, mul_one, and_self, and_true]
     exact h
-  have h_contra : p ∣ 1 := by
-    zify at *
-    have hrw : (1 : ℤ) = n.factorial + 1 - n.factorial := by ring
-    rw [hrw]
-    apply dvd_sub h2 h3
-  exact Nat.Prime.not_dvd_one h1 h_contra
-
-
+  apply Nat.Prime.not_dvd_one h1
+  zify at *
+  have hrw : (1 : ℤ) = n.factorial + 1 - n.factorial := by ring
+  rw [hrw]
+  exact dvd_sub h2 h3
